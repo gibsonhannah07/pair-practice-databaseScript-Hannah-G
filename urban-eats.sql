@@ -20,7 +20,7 @@ CREATE TABLE customers (
 );
 
 CREATE TABLE orders (
-    order_id INT PRIMARY KEY,
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
     customer_id INT NOT NULL,
     restaurant_id INT NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES customers(customer_id),
@@ -29,11 +29,12 @@ CREATE TABLE orders (
 
 -- using a select join to show customer full name, restaurant name, and order id
 SELECT
-    customers.first_name,
-    customers.last_name,
+    CONCAT(customers.first_name, ' ',  customers.last_name) AS customer_full_name,
     restaurant.restaurant_name,
-    orders.customer_id
+    orders.order_id
 FROM orders
-JOIN customers ON orders.customer_id = customers.customer_id
-JOIN restaurant ON orders.restaurant_id = restaurant.restaurant_id;
+JOIN customers
+    ON orders.customer_id = customers.customer_id
+JOIN restaurant
+    ON orders.restaurant_id = restaurant.restaurant_id;
 
